@@ -1,6 +1,8 @@
 package com.example.neteasecloudmusic.view.fragment
 
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +16,7 @@ import com.example.neteasecloudmusic.databinding.FragmentRecommendBinding
 import com.example.neteasecloudmusic.model.sharedPreference.SharedPreferencesHelper
 import com.example.neteasecloudmusic.view.adapter.DailyRecommendSongsAdapter
 import com.example.neteasecloudmusic.viewmodel.fragmentviewmodel.RecommendViewModel
+import java.io.IOException
 
 class RecommendFragment : Fragment() {
 
@@ -32,8 +35,9 @@ class RecommendFragment : Fragment() {
         val root: View = binding.root
 
         val recyclerView: RecyclerView = binding.dailyRecommendSongsRecyclerView
-        val adapter =DailyRecommendSongsAdapter(recommendViewModel.songList)
+        val adapter =DailyRecommendSongsAdapter(recommendViewModel,recommendViewModel.songList)
         val layoutManager = LinearLayoutManager(this.context)
+
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
         recyclerView.addItemDecoration(DividerItemDecoration(this@RecommendFragment.context,DividerItemDecoration.VERTICAL))
@@ -52,13 +56,32 @@ class RecommendFragment : Fragment() {
             }
         }
 
+        recommendViewModel.songLiveData.observe(this@RecommendFragment.viewLifecycleOwner){
+            val songResponse = it.getOrNull()
+            if (songResponse!= null){
+                Log.e("MUSIC",songResponse[0].url + " NULL ")
+                try {
+                    val mp = MediaPlayer()
+                    mp.setDataSource(songResponse[0].url)
+                    mp.setOnPreparedListener {
+                        mp.start()
+                    }
+                    mp.prepareAsync()
+                }catch (e : IOException){
+                    Log.e("MUSIC",e.message,e)
+                }
+            }else{
+                it.exceptionOrNull()?.printStackTrace()
+            }
+        }
+
         return root
     }
 
     override fun onResume() {
         super.onResume()
         SharedPreferencesHelper.getCookie()
-            ?.let { recommendViewModel.getDailyRecommendSongLiveData(it) }
+            ?.let { recommendViewModel.getDailyRecommendSongResponse(it) }
     }
 
 

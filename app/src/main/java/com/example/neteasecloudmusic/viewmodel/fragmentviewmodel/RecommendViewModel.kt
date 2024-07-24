@@ -12,14 +12,24 @@ class RecommendViewModel : ViewModel() {
 
     private val _dailyRecommendSongLiveData = MutableLiveData<String>()
 
+    private val _songLiveData = MutableLiveData<Long>()
+
     val songList = ArrayList<DailyRecommendSongsResponse.DailySongs>()
 
     val dailyRecommendSongLiveData = _dailyRecommendSongLiveData.switchMap {
         Repository.getDailyRecommendSongsResponse(it)
     }
 
-    fun getDailyRecommendSongLiveData(cookie : String){
+    val songLiveData = _songLiveData.switchMap {
+        Repository.getSongResponse(it)
+    }
+
+    fun getDailyRecommendSongResponse(cookie : String){
         _dailyRecommendSongLiveData.value = cookie
+    }
+
+    fun getSongResponse(id : Long){
+        _songLiveData.value = id
     }
 
 }
