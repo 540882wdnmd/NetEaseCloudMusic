@@ -8,31 +8,31 @@
 
     <fragment
         android:id="@+id/navigation_recommend"
-        android:name="com.example.neteasecloudmusic.view.RecommendFragment"
+        android:name="com.example.neteasecloudmusic.view.fragment.RecommendFragment"
         android:label="Recommend"
         tools:layout="@layout/fragment_recommend"/>
 
     <fragment
         android:id="@+id/navigation_discover"
-        android:name="com.example.neteasecloudmusic.view.DiscoverFragment"
+        android:name="com.example.neteasecloudmusic.view.fragment.DiscoverFragment"
         android:label="Discover"
         tools:layout="@layout/fragment_discover"/>
 
     <fragment
         android:id="@+id/navigation_roam"
-        android:name="com.example.neteasecloudmusic.view.RoamFragment"
+        android:name="com.example.neteasecloudmusic.view.fragment.RoamFragment"
         android:label="Roam"
         tools:layout="@layout/fragment_roam"/>
 
     <fragment
         android:id="@+id/navigation_dynamic"
-        android:name="com.example.neteasecloudmusic.view.DynamicFragment"
+        android:name="com.example.neteasecloudmusic.view.fragment.DynamicFragment"
         android:label="Dynamic"
         tools:layout="@layout/fragment_dynamic"/>
 
     <fragment
         android:id="@+id/navigation_mine"
-        android:name="com.example.neteasecloudmusic.view.MineFragment"
+        android:name="com.example.neteasecloudmusic.view.fragment.MineFragment"
         android:label="Mine"
         tools:layout="@layout/fragment_mine"/>
 

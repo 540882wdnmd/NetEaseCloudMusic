@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".view.MainActivity"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_main"
+        <data>
+
+        </data>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"/>
+            android:layout_height="match_parent"
+            tools:context=".view.activity.MainActivity"
+            android:orientation="vertical">
 
-        <include
-            android:id="@+id/content_main"
-            layout="@layout/content_main" />
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="?attr/colorPrimary" />
 
-</LinearLayout>
+                <include
+                    android:id="@+id/content_main"
+                    layout="@layout/content_main" />
+
+        </LinearLayout>
+</layout>

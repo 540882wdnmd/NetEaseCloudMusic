@@ -17,7 +17,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-
+        maven("https://s01.oss.sonatype.org/content/groups/public")
+        maven("https://jitpack.io")
     }
 }
 

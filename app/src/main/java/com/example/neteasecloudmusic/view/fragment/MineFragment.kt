@@ -1,5 +1,5 @@
 
-package com.example.neteasecloudmusic.view
+package com.example.neteasecloudmusic.view.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,11 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
-import com.example.neteasecloudmusic.R
 import com.example.neteasecloudmusic.databinding.FragmentMineBinding
-import com.example.neteasecloudmusic.databinding.FragmentRoamBinding
-import com.example.neteasecloudmusic.viewmodel.MineViewModel
-import com.example.neteasecloudmusic.viewmodel.RoamViewModel
+import com.example.neteasecloudmusic.viewmodel.fragmentviewmodel.MineViewModel
 
 class MineFragment : Fragment() {
 

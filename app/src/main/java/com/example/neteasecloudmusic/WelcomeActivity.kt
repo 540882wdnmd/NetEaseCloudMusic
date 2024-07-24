@@ -1,20 +1,18 @@
-package com.example.neteasecloudmusic.view
+package com.example.neteasecloudmusic
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.ViewPropertyAnimatorListener
-import androidx.core.view.WindowInsetsCompat
-import com.example.neteasecloudmusic.R
+import com.example.neteasecloudmusic.model.sharedPreference.SharedPreferencesHelper
+import com.example.neteasecloudmusic.view.activity.MainActivity
 
 class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
-
 
         //设置图片动画
         ViewCompat.animate(findViewById(R.id.startPage)).apply {

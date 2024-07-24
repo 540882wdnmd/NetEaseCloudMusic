@@ -1,4 +1,4 @@
-package com.example.neteasecloudmusic.view
+package com.example.neteasecloudmusic.view.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,11 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
-import com.example.neteasecloudmusic.R
 import com.example.neteasecloudmusic.databinding.FragmentDiscoverBinding
-import com.example.neteasecloudmusic.databinding.FragmentRoamBinding
-import com.example.neteasecloudmusic.viewmodel.DiscoverViewModel
-import com.example.neteasecloudmusic.viewmodel.RoamViewModel
+import com.example.neteasecloudmusic.viewmodel.fragmentviewmodel.DiscoverViewModel
 
 class DiscoverFragment : Fragment() {
 
@@ -27,7 +24,7 @@ class DiscoverFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val discoverViewModel =
-            ViewModelProvider(this).get(DiscoverViewModel::class.java)
+            ViewModelProvider(this)[DiscoverViewModel::class.java]
 
         _binding = FragmentDiscoverBinding.inflate(inflater, container, false)
         val root: View = binding.root

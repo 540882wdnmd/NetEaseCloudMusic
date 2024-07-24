@@ -1,4 +1,4 @@
-package com.example.neteasecloudmusic.view
+package com.example.neteasecloudmusic.view.activity
 
 import android.os.Bundle
 import android.view.KeyEvent

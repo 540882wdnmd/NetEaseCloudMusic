@@ -1,35 +1,58 @@
 [versions]
+activityComposeVersion = "1.9.0"
 agp = "8.4.2"
+androidxComposeBom = "2024.06.00"
 androidxLifecycleViewmodelKtxVersion = "2.8.3"
 kotlin = "1.9.0"
-coreKtx = "1.10.1"
+coreKtx = "1.13.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 appcompat = "1.6.1"
+kotlinxCoroutinesCore = "1.7.3"
 leakcanaryAndroid = "2.14"
-lifecycleRuntime = "2.6.2"
-material = "1.10.0"
-activity = "1.8.0"
+material = "1.12.0"
+activity = "1.9.0"
 constraintlayout = "2.1.4"
+material3 = "1.2.1"
 navigationFragment = "2.7.7"
+okhttp = "4.11.0"
+persistentcookiejar = "v1.0.1"
+picasso = "2.8"
+retrofit = "2.9.0"
+uiTestJunit4 = "1.6.8"
+uiTooling = "1.0.0-alpha07"
 
 [libraries]
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityComposeVersion" }
+androidx-compose-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidxComposeBom" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-androidx-lifecycle-lifecycle-viewmodel-ktx2 = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycleViewmodelKtxVersion" }
-androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime", version.ref = "lifecycleRuntime" }
+androidx-lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata", version.ref = "androidxLifecycleViewmodelKtxVersion" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidxLifecycleViewmodelKtxVersion" }
 androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidxLifecycleViewmodelKtxVersion" }
+androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
+androidx-ui = { module = "androidx.compose.ui:ui", version.ref = "uiTestJunit4" }
+androidx-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "uiTestJunit4" }
+androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "uiTestJunit4" }
+androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestJunit4" }
+androidx-ui-tooling = { module = "androidx.ui:ui-tooling", version.ref = "uiTooling" }
+androidx-ui-tooling-preview-android = { module = "androidx.compose.ui:ui-tooling-preview-android", version.ref = "uiTestJunit4" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesCore" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanaryAndroid" }
-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleRuntime" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragment" }
+persistentcookiejar = { module = "com.github.franmontiel:PersistentCookieJar", version.ref = "persistentcookiejar" }
+picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
