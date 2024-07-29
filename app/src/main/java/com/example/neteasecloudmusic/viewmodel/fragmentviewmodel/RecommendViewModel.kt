@@ -10,9 +10,9 @@ import com.example.neteasecloudmusic.model.repository.Repository
 
 class RecommendViewModel : ViewModel() {
 
-    private val _dailyRecommendSongLiveData = MutableLiveData<String>()
+    private var _dailyRecommendSongLiveData = MutableLiveData<String>()
 
-    private val _songLiveData = MutableLiveData<Long>()
+    private var _songLiveData = MutableLiveData<Long>()
 
     val songList = ArrayList<DailyRecommendSongsResponse.DailySongs>()
 
@@ -31,5 +31,7 @@ class RecommendViewModel : ViewModel() {
     fun getSongResponse(id : Long){
         _songLiveData.value = id
     }
+
+
 
 }

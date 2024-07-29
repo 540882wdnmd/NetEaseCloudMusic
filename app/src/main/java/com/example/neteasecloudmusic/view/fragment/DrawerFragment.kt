@@ -1,7 +1,5 @@
 package com.example.neteasecloudmusic.view.fragment
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,17 +8,16 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.compose.material3.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
+import com.example.neteasecloudmusic.R
 import com.example.neteasecloudmusic.databinding.FragmentDrawerBinding
+import com.example.neteasecloudmusic.databinding.ItemDialogLoginBinding
 import com.example.neteasecloudmusic.model.data.Account
-import com.example.neteasecloudmusic.model.data.User
-import com.example.neteasecloudmusic.model.repository.Repository
+import com.example.neteasecloudmusic.model.data.LoginResponse
 import com.example.neteasecloudmusic.model.sharedPreference.SharedPreferencesHelper
-import com.example.neteasecloudmusic.view.activity.LoginActivity
 import com.example.neteasecloudmusic.viewmodel.fragmentviewmodel.DrawerViewModel
 import com.squareup.picasso.Picasso
 
@@ -59,24 +56,16 @@ class DrawerFragment : Fragment() {
         logoutBtn = binding.logoutButton
 
         cellphoneBtn.setOnClickListener {
-            drawerViewModel.getLoginResponse("15976404976","20050602l")
+            showLoginDialog()
         }
 
         logoutBtn.setOnClickListener {
             drawerViewModel.getLogoutResponse()
         }
 
-        if(SharedPreferencesHelper.getLoginStatus() == true){
-            drawerText.text = "欢迎回来"
-            userNickname.text = SharedPreferencesHelper.getAccountNickName()
-            userAvatar.visibility = View.VISIBLE
-            Picasso.get().load(SharedPreferencesHelper.getAvatarImageUrl()).into(userAvatar)
-            cellphoneBtn.visibility = View.GONE
-            emailBtn.visibility = View.GONE
-            qrcodeBtn.visibility = View.GONE
-            logoutBtn.visibility = View.VISIBLE
+        if (SharedPreferencesHelper.getLoginStatus()==true){
+            loginUI()
         }
-
         return root
     }
 
@@ -86,13 +75,7 @@ class DrawerFragment : Fragment() {
         drawerViewModel.logoutResponseLiveData.observe(this@DrawerFragment.viewLifecycleOwner){
             val logoutResponse = it.getOrNull()
             if (logoutResponse!=null){
-                drawerText.text = "请登录"
-                userNickname.visibility = View.GONE
-                userAvatar.visibility = View.GONE
-                cellphoneBtn.visibility = View.VISIBLE
-                emailBtn.visibility = View.VISIBLE
-                qrcodeBtn.visibility = View.VISIBLE
-                logoutBtn.visibility = View.GONE
+                logoutUI()
                 SharedPreferencesHelper.logout()
             }
         }
@@ -101,15 +84,7 @@ class DrawerFragment : Fragment() {
             val loginResponse = it.getOrNull()
             if (loginResponse!=null){
                 if (loginResponse.code==200){
-                    drawerText.text = "欢迎回来"
-                    userNickname.text = loginResponse.profile.nickname
-                    userAvatar.visibility = View.VISIBLE
-                    Picasso.get().load(loginResponse.profile.avatarUrl).into(userAvatar)
-                    cellphoneBtn.visibility = View.GONE
-                    emailBtn.visibility = View.GONE
-                    qrcodeBtn.visibility = View.GONE
-                    logoutBtn.visibility = View.VISIBLE
-
+                    firstLoginUI(loginResponse)
                     SharedPreferencesHelper.login(Account(loginResponse.profile.nickname,loginResponse.profile.avatarUrl,loginResponse.cookie))
                 }
             }else{
@@ -121,14 +96,66 @@ class DrawerFragment : Fragment() {
 
     }
 
-    override fun onStart() {
-        super.onStart()
-
-    }
-
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun firstLoginUI(loginResponse: LoginResponse){
+        drawerText.text = "欢迎回来"
+        userNickname.text = loginResponse.profile.nickname
+        userAvatar.visibility = View.VISIBLE
+        Picasso.get().load(loginResponse.profile.avatarUrl).into(userAvatar)
+        cellphoneBtn.visibility = View.GONE
+        emailBtn.visibility = View.GONE
+        qrcodeBtn.visibility = View.GONE
+        logoutBtn.visibility = View.VISIBLE
+    }
+
+    private fun loginUI(){
+        drawerText.text = "欢迎回来"
+        userNickname.text = SharedPreferencesHelper.getAccountNickName()
+        userAvatar.visibility = View.VISIBLE
+        Picasso.get().load(SharedPreferencesHelper.getAvatarImageUrl()).into(userAvatar)
+        cellphoneBtn.visibility = View.GONE
+        emailBtn.visibility = View.GONE
+        qrcodeBtn.visibility = View.GONE
+        logoutBtn.visibility = View.VISIBLE
+    }
+
+    private fun logoutUI(){
+        drawerText.text = "请登录"
+        userNickname.visibility = View.GONE
+        userAvatar.visibility = View.GONE
+        cellphoneBtn.visibility = View.VISIBLE
+        emailBtn.visibility = View.VISIBLE
+        qrcodeBtn.visibility = View.VISIBLE
+        logoutBtn.visibility = View.GONE
+    }
+
+    private fun showLoginDialog(){
+        val binding : ItemDialogLoginBinding = ItemDialogLoginBinding.inflate(layoutInflater)
+        this@DrawerFragment.context?.let {
+            AlertDialog.Builder(it).apply {
+                setTitle("请输入账号密码")
+                setView(binding.root)
+
+                setPositiveButton("确认"){ _, _ ->
+                    drawerViewModel.getLoginResponse(binding.accountEditText.text.toString(),
+                        binding.passwordEdit.text.toString()
+                    )
+                }
+
+                setCancelable(true)
+                setNegativeButton("取消"){
+                        dialog, _ -> dialog.cancel()
+                }
+
+                val dialog : AlertDialog =  this.create()
+                if (!dialog.isShowing){
+                    dialog.show()
+                }
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.example.neteasecloudmusic.model.repository
 import android.util.Log
 import androidx.lifecycle.liveData
 import com.example.neteasecloudmusic.model.network.NetEaseCloudMusicNetWork
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
 import okhttp3.Cookie
 import java.io.IOException
@@ -94,4 +95,6 @@ object Repository {
         }
         return null
     }
+
+
 }

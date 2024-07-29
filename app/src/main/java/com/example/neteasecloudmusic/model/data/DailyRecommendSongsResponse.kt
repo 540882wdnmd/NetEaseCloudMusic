@@ -10,6 +10,6 @@ data class DailyRecommendSongsResponse(val msg : String, val code : Int, val dat
 
     data class Artists(val id : Int,val name: String)
 
-    data class Al(val id : Long,val name: String,val picurl : String)
+    data class Al(val id : Long,val name: String,val picUrl : String)
 
 }

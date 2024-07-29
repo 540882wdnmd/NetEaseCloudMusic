@@ -24,7 +24,6 @@ class WelcomeActivity : AppCompatActivity() {
             //动画监听
             setListener(object : ViewPropertyAnimatorListener {
                 override fun onAnimationEnd(view: View) { //动画结束
-                    //进入主界面，并结束掉该页面
                     startActivity(Intent(this@WelcomeActivity, MainActivity::class.java))
                     finish()
                 }
