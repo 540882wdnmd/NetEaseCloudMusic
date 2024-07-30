@@ -78,23 +78,5 @@ object Repository {
         }
 
 
-    fun downloadImage(urlString: String): ByteArray? {
-        val url = URL(urlString)
-        val connection = url.openConnection() as HttpURLConnection
-        connection.connectTimeout = 5000 // 设置连接超时时间
-        connection.readTimeout = 5000 // 设置读取超时时间
-        connection.requestMethod = "GET"
-
-        try {
-            val inputStream = connection.inputStream
-            return inputStream.readBytes()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        } finally {
-            connection.disconnect()
-        }
-        return null
-    }
-
 
 }

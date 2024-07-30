@@ -1,9 +1,15 @@
 package com.example.neteasecloudmusic.view.activity
 
+import android.content.Context
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
+import android.util.AttributeSet
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MenuItem
+import android.view.View
+import android.widget.ImageButton
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -20,31 +26,45 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.neteasecloudmusic.R
 import com.example.neteasecloudmusic.databinding.ActivityMainBinding
+import com.example.neteasecloudmusic.databinding.ViewSimpleMusicPlayerBinding
+import com.example.neteasecloudmusic.model.data.DailyRecommendSongsResponse
 import com.example.neteasecloudmusic.view.adapter.DailyRecommendSongsAdapter
 import com.example.neteasecloudmusic.view.fragment.MusicPlayerBottomSheetDialogFragment
 import com.example.neteasecloudmusic.view.fragment.RecommendFragment
 import com.example.neteasecloudmusic.viewmodel.activityviewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.squareup.picasso.Picasso
+import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
+
+    private val TAG : String = "MainActivity"
 
     private lateinit var binding : ActivityMainBinding
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var simpleMusicPlayerView : ConstraintLayout
+    private lateinit var musicPlayingButton: ImageButton
+    private lateinit var nextMusicButton : ImageButton
+    private lateinit var simpleMusicPlayerView : ViewSimpleMusicPlayerBinding
+    private lateinit var toolbarMain: Toolbar
+    private lateinit var bottomNavView : BottomNavigationView
+    private lateinit var navController : NavController
 
-    private val mainViewModel by lazy { ViewModelProvider(this).get(MainViewModel::class.java) }
+    private val  mainViewModel by lazy { ViewModelProvider(this)[MainViewModel::class.java] }
 
+    interface Callback{
+        fun onResult(dailySongs: DailyRecommendSongsResponse.DailySongs)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         binding  = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)//绑定布局
 
         drawerLayout = binding.drawerLayoutMain
-        val toolbarMain :Toolbar = binding.appBarMain.toolbarMain
+        toolbarMain = binding.appBarMain.toolbarMain
         setSupportActionBar(toolbarMain)//设置toolbar
 
         //导航按钮
@@ -53,8 +73,8 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
 
         //设置底部导航按钮
-        val bottomNavView : BottomNavigationView = binding.appBarMain.contentMain.bottomNavView
-        val navController : NavController = findNavController(R.id.nav_host_fragment_activity_main)
+        bottomNavView = binding.appBarMain.contentMain.bottomNavView
+        navController = findNavController(R.id.nav_host_fragment_activity_main)
         val appBarConfigurationBottom = AppBarConfiguration(
             setOf(
                 R.id.navigation_recommend,
@@ -67,30 +87,10 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController,appBarConfigurationBottom)
         bottomNavView.setupWithNavController(navController)
 
-
-        simpleMusicPlayerView = binding.appBarMain.contentMain.viewSimpleMusicPlayer.root
-        simpleMusicPlayerView.setOnClickListener {
-            MusicPlayerBottomSheetDialogFragment().show(supportFragmentManager,"MusicPlayerBottomSheetDialogFragment")
-        }
-
-        mainViewModel.songPicLiveData.observe(this, Observer {
-            val picUrl = it.getOrNull()
-            if (picUrl != null) {
-                Log.e("MAIN ACTIVITY",picUrl)
-                Picasso.get().load(picUrl).into(binding.appBarMain.contentMain.viewSimpleMusicPlayer.songPic)
-            }
-
-        })
-
-        mainViewModel.songNameLiveData.observe(this, Observer {
-            val songPlayingName = it.getOrNull()
-            if (songPlayingName != null){
-                Log.e("MAIN ACTIVITY",songPlayingName)
-                binding.appBarMain.contentMain.viewSimpleMusicPlayer.songPlayingName.text = songPlayingName
-            }
-        })
-
+        //简易播放器部分
+        initSimpleMusicPlayerView()
     }
+
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -115,11 +115,32 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onKeyDown(keyCode, event)
     }
+    private fun initSimpleMusicPlayerView(){
+        simpleMusicPlayerView = binding.appBarMain.contentMain.viewSimpleMusicPlayer
+        simpleMusicPlayerView.root.setOnClickListener {
+            MusicPlayerBottomSheetDialogFragment().show(supportFragmentManager,"MusicPlayerBottomSheetDialogFragment")
+        }
 
+        musicPlayingButton = simpleMusicPlayerView.startPauseButton
+        nextMusicButton = simpleMusicPlayerView.nextMusicButton
 
-    fun giveImageView(getImageView: RecommendFragment.GetImageView){
-        getImageView.getImageView(binding.appBarMain.contentMain.viewSimpleMusicPlayer.songPic)
+        mainViewModel.songPicLiveData.observe(this) {
+            Log.e(TAG, it)
+            Picasso.get().load(it).into(simpleMusicPlayerView.songPic)
+        }
+        mainViewModel.songNameLiveData.observe(this) {
+            Log.e(TAG, it)
+            simpleMusicPlayerView.songPlayingName.text = it
+        }
+
+        musicPlayingButton.setOnClickListener {
+
+        }
+        nextMusicButton.setOnClickListener {
+
+        }
     }
+
 
 }
 

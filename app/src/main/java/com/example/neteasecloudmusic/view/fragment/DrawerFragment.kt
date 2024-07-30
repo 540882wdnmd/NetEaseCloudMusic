@@ -25,7 +25,7 @@ class DrawerFragment : Fragment() {
     private val TAG = "DrawerFragment"
 
     private var _binding: FragmentDrawerBinding? = null
-    private val drawerViewModel by lazy { ViewModelProvider(this).get(DrawerViewModel::class.java) }
+    private val drawerViewModel by lazy { ViewModelProvider(this)[DrawerViewModel::class.java] }
 
     private lateinit var drawerText: TextView
     private lateinit var userNickname : TextView
